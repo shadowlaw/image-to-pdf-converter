@@ -45,7 +45,7 @@ def get_image_from_path(image_path):
 
     image = Image.open(image_path)
     if image.mode == 'RGBA':
-        image.convert('RGB')
+        image = image.convert('RGB')
     return image
 
 
