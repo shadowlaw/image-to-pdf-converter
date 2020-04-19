@@ -1,5 +1,6 @@
 from PIL import Image
 from Errors.ConversionFailureError import ConversionFailureError
+from Errors.ImageNotSupportedError import ImageNotSupportedError
 import os
 
 SUPPORTED_IMAGES = [".jpg", ".jpeg", ".png"]
@@ -38,6 +39,10 @@ def convert_image_to_pdf(image_path, pdf_path):
 
 
 def get_image_from_path(image_path):
+
+    if not is_supported(image_path):
+        raise ImageNotSupportedError("images extension not supported: {}".format(image_path))
+
     image = Image.open(image_path)
     if image.mode == 'RGBA':
         image.convert('RGB')
@@ -64,7 +69,11 @@ def convert_images_to_pdf(image_path_lst, pdf_path):
             # logger.warn("Not a file: {}".format(image_path))
             pass
 
-        image = get_image_from_path(image_path)
+        try:
+            image = get_image_from_path(image_path)
+        except ImageNotSupportedError as err:
+            # logger.warn(err)
+            continue
 
         images.append(image)
     images[0].save(pdf_path, save_all=True, quality=100, append_images=images[1:])
