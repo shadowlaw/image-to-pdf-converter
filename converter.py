@@ -42,4 +42,23 @@ def get_image_from_path(image_path):
     return image
 
 
+def convert_images_to_pdf(image_path_lst, pdf_path):
 
+    if type(image_path_lst) == list:
+        raise TypeError("{} is not a list".format(type(image_path_lst)))
+
+    images = []
+    for image_path in image_path_lst:
+        try:
+            basic_file_path_validation(image_path)
+        except os.FileNotFoundError as exception:
+            # logger.warn("File not found at path: {}".format(image_path))
+            pass
+        except TypeError as exception:
+            # logger.warn("Not a file: {}".format(image_path))
+            pass
+
+        image = get_image_from_path(image_path)
+
+        images.append(image)
+    images[0].save(pdf_path, save_all=True, quality=100, append_images=images[1:])
