@@ -25,10 +25,7 @@ def convert_image_to_pdf(image_path, pdf_path):
     except TypeError as exception:
         raise ConversionFailureError("Not a file: {}".format(image_path))
 
-    image = Image.open(image_path)
-
-    if image.mode == 'RGBA':
-        image.convert('RGB')
+    image = get_image_from_path(image_path)
 
     try:
         image.save(pdf_path, "PDF", resolution=100.0)
@@ -38,6 +35,11 @@ def convert_image_to_pdf(image_path, pdf_path):
         return False
 
 
-def convert_images_to_pdf(image_path_lst):
-    pass
+def get_image_from_path(image_path):
+    image = Image.open(image_path)
+    if image.mode == 'RGBA':
+        image.convert('RGB')
+    return image
+
+
 
