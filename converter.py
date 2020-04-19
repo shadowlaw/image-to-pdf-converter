@@ -2,6 +2,8 @@ from PIL import Image
 from Errors.ConversionFailureError import ConversionFailureError
 import os
 
+SUPPORTED_IMAGES = [".jpg", ".jpeg", ".png"]
+
 
 def basic_file_path_validation(file_path):
     if not os.path.exists(file_path):
@@ -40,6 +42,10 @@ def get_image_from_path(image_path):
     if image.mode == 'RGBA':
         image.convert('RGB')
     return image
+
+
+def is_supported(image_path):
+    return os.path.splitext(image_path)[1] in SUPPORTED_IMAGES
 
 
 def convert_images_to_pdf(image_path_lst, pdf_path):
