@@ -18,7 +18,7 @@ def get_user_input():
 
     pdf_path = input("Enter full path and name of new pdf: ")
 
-    pdf_path = pdf_path if splitext(pdf_path)[1].lower == '.pdf' else pdf_path+".pdf"
+    pdf_path = pdf_path if splitext(pdf_path)[1].lower() == '.pdf' else pdf_path+".pdf"
 
     return {"conversion_type": conversion_type, "path": path, "pdf_path": pdf_path}
 
