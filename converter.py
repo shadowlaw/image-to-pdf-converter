@@ -8,7 +8,7 @@ SUPPORTED_IMAGES = [".jpg", ".jpeg", ".png"]
 
 def basic_file_path_validation(file_path):
     if not os.path.exists(file_path):
-        raise os.FileNotFoundError
+        raise FileNotFoundError
 
     if not os.path.isfile(file_path):
         raise TypeError
@@ -23,7 +23,7 @@ def convert_image_to_pdf(image_path, pdf_path):
 
     try:
         basic_file_path_validation(image_path)
-    except os.FileNotFoundError as exception:
+    except FileNotFoundError as exception:
         raise ConversionFailureError("File not found at path: {}".format(image_path))
     except TypeError as exception:
         raise ConversionFailureError("Not a file: {}".format(image_path))
@@ -55,19 +55,19 @@ def is_supported(image_path):
 
 def convert_images_to_pdf(image_path_lst, pdf_path):
 
-    if type(image_path_lst) == list:
+    if type(image_path_lst) != list:
         raise TypeError("{} is not a list".format(type(image_path_lst)))
 
     images = []
     for image_path in image_path_lst:
         try:
             basic_file_path_validation(image_path)
-        except os.FileNotFoundError as exception:
+        except FileNotFoundError as exception:
             # logger.warn("File not found at path: {}".format(image_path))
-            pass
+            continue
         except TypeError as exception:
             # logger.warn("Not a file: {}".format(image_path))
-            pass
+            continue
 
         try:
             image = get_image_from_path(image_path)
