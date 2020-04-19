@@ -1,4 +1,5 @@
 from PIL import Image
+from Errors.ConversionFailureError import ConversionFailureError
 import os
 
 
@@ -20,11 +21,9 @@ def convert_image_to_pdf(image_path, pdf_path):
     try:
         basic_file_path_validation(image_path)
     except os.FileNotFoundError as exception:
-        # TODO: indicate failure
-        return
+        raise ConversionFailureError("File not found at path: {}".format(image_path))
     except TypeError as exception:
-        # TODO: indicate failure
-        return
+        raise ConversionFailureError("Not a file: {}".format(image_path))
 
     image = Image.open(image_path)
 
@@ -35,7 +34,7 @@ def convert_image_to_pdf(image_path, pdf_path):
         image.save(pdf_path, "PDF", resolution=100.0)
         return True
     except Exception as exception:
-        # log failure message
+        # TODO: log failure message
         return False
 
 

@@ -1,0 +1,2 @@
+class ConversionFailureError(RuntimeError):
+    pass
